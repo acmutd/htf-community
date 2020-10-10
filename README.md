@@ -6,7 +6,6 @@
 and speakers about modern software practices.
 
 ### What You'll Learn
-
 1. How to use WebGL, a powerful Javascript API for high-performance graphics
 2. How to configure the graphics pipeline for your content
 3. How to write shaders for texturing and lighting
@@ -18,19 +17,19 @@ and speakers about modern software practices.
 ## Deployment
 After your pull request is approved, you'll be able to see the finished product at [webgl-workshop.acmutd.co](https://webgl-workshop.acmutd.co).
 
-## Directory Layout
+## Documentation
+MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) is an indispensable resource for understanding the semantics of WebGL's API calls. Don't be intimidated by the number of functions listed - simply search for the name of a WebGL function you want to learn about (e.g. `texImage2D`) and follow the link to its reference, where you'll see a list of accepted arguments accompanied by detailed explanations and example code. The code for this workshop is loosely based on [MDN's WebGL tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial), so if a traditional online tutorial is more convenient for you than the workshop format, you should definitely check out that link.
 
+## Directory Layout
 * `0-base` - The directory with which you'll (probably) start the workshop; a minimal template to handle HTML and user interaction so you can focus on learning WebGL
 * `1-color` - A cube shaded entirely the same color
 * `2-texture` - A textured cube
 * `3-lighting` - A lit textured cube
 
 ## A Note About HTTP
-
 In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. These textures are loaded from external files, yet modern browsers do not allow content loaded via a `file:///` url to fetch other resources on the drive as if it were a network. To work around this, you'll need to set up a local HTTP server to run the examples (if you want to see textures) rather than just double-clicking on the `.html` files.
 
 If you already have [Node.js](https://nodejs.org) installed, you might like to use [`http-server`](https://www.npmjs.com/package/http-server). Alternatively, if you already have Python, you can simply `cd` to the directory of this repo and run `python -m http.server`. If you don't already have either of those, just pick one and install it. If you can't decide, pick Node.js, because you're likely to encounter it soon again at other workshops and projects.
 
 ## A Good Idea
-
 It might be a good idea to clone this repo and test everything to make sure it works, and perhaps skim the code/comments so you already have an idea of what we're doing before the workshop (not a requirement though; we'll go through almost all of it again during the workshop). If you run into any issues, [hit us up on Discord](https://www.acmutd.co/discord)!
