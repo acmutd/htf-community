@@ -27,9 +27,7 @@ MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web
 * `3-lighting` - A lit textured cube
 
 ## HTTP Server for Examples
-In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. These textures are loaded from external files, yet modern browsers do not allow content loaded via a `file:///` url to fetch other resources on the drive as if it were a network. To work around this, you'll need to set up a local HTTP server to run the examples (if you want to see textures) rather than just double-clicking on the `.html` files.
-
-If you want to use texturing (highly recommended), you'll need to use a local HTTP server to run the examples, rather than double-clicking the HTML files. Follow [these instructions](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server#Running_a_simple_local_HTTP_server) to install one if you don't have it already.
+In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. This functionality is only available if you use a local HTTP server to run the examples, rather than double-clicking the HTML files. Follow [these instructions](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server#Running_a_simple_local_HTTP_server) to install one if you don't have it already.
 
 Notes on instructions:
 * Step 1: we'd recommend getting the *x86-64* version of Python (rather than the *x86* one mentioned in that tutorial), unless you already have a different version of Python installed.
