@@ -26,10 +26,14 @@ MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web
 * `2-texture` - A textured cube
 * `3-lighting` - A lit textured cube
 
-## A Note About HTTP
+## HTTP Server for Examples
 In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. These textures are loaded from external files, yet modern browsers do not allow content loaded via a `file:///` url to fetch other resources on the drive as if it were a network. To work around this, you'll need to set up a local HTTP server to run the examples (if you want to see textures) rather than just double-clicking on the `.html` files.
 
-If you already have [Node.js](https://nodejs.org) installed, you might like to use [`http-server`](https://www.npmjs.com/package/http-server). Alternatively, if you already have Python, you can simply `cd` to the directory of this repo and run `python -m http.server`. If you don't already have either of those, just pick one and install it. If you can't decide, pick Node.js, because you're likely to encounter it soon again at other workshops and projects.
+If you want to use texturing (highly recommended), you'll need to use a local HTTP server to run the examples, rather than double-clicking the HTML files. Follow [these instructions](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server#Running_a_simple_local_HTTP_server) to install one if you don't have it already.
+
+Notes on instructions:
+* Step 1: we'd recommend getting the *x86-64* version of Python (rather than the *x86* one mentioned in that tutorial), unless you already have a different version of Python installed.
+* Step 3: `cd` into the root of this repository (e.g. the `htf-community` folder on your drive).
 
 ## A Good Idea
 It might be a good idea to clone this repo and test everything to make sure it works, and perhaps skim the code/comments so you already have an idea of what we're doing before the workshop (not a requirement though; we'll go through almost all of it again during the workshop). If you run into any issues, [hit us up on Discord](https://www.acmutd.co/discord)!
