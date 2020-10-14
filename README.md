@@ -15,7 +15,7 @@ and speakers about modern software practices.
 - JavaScript
 
 ## Deployment
-After your pull request is approved, you'll be able to see the finished product at [webgl-workshop.acmutd.co](https://webgl-workshop.acmutd.co).
+After your pull request is approved, you'll be able to see the finished product at [community.acmutd.co](https://community.acmutd.co).
 
 ## Documentation
 MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) is an indispensable resource for understanding the semantics of WebGL's API calls. Don't be intimidated by the number of functions listed - simply search for the name of a WebGL function you want to learn about (e.g. `texImage2D`) and follow the link to its reference, where you'll see a list of accepted arguments accompanied by detailed explanations and example code. The code for this workshop is loosely based on [MDN's WebGL tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial), so if a traditional online tutorial is more convenient for you than the workshop format, you should definitely check out that link.
@@ -26,10 +26,20 @@ MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web
 * `2-texture` - A textured cube
 * `3-lighting` - A lit textured cube
 
-## HTTP Server for Examples
-In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. This functionality is only available if you use a local HTTP server to run the examples, rather than double-clicking the HTML files. Follow [these instructions](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server#Running_a_simple_local_HTTP_server) to install one if you don't have it already.
+## Cloning via Git
+There are two options for downloading this repository to your device:
 
-Notes on instructions:
+1. Open your terminal and run `https://github.com/acmutd/htf-community.git`
+2. Click on the green "Code" button (above the list of files/folders) and click "Download ZIP"
+
+## HTTP Server for Examples
+In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. This functionality is only available if you use a local HTTP server to run the examples, rather than double-clicking the HTML files.
+
+If you're using VS Code, you can open this repo and use the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) plugin to host the examples.
+
+If you don't want to use Live Server, follow [these instructions](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server#Running_a_simple_local_HTTP_server) to set up Python's built-in HTTP server.
+
+Additional notes for MDN instructions:
 * Step 1: we'd recommend getting the *x86-64* version of Python (rather than the *x86* one mentioned in that tutorial), unless you already have a different version of Python installed.
 * Step 3: `cd` into the root of this repository (e.g. the `htf-community` folder on your drive).
 
