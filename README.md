@@ -41,8 +41,8 @@ MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web
 ## Cloning via Git
 There are two options for downloading this repository to your device:
 
-1. Open your terminal and run `https://github.com/acmutd/htf-community.git`
-2. Click on the green "Code" button (above the list of files/folders) and click "Download ZIP"
+1. Open your terminal and run `git clone https://github.com/acmutd/htf-community.git`
+2. [Download the ZIP file](https://github.com/acmutd/htf-community/archive/main.zip)
 
 ## HTTP Server for Examples
 In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. This functionality is only available if you use a local HTTP server to run the examples, rather than double-clicking the HTML files.
