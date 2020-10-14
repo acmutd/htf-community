@@ -21,10 +21,22 @@ After your pull request is approved, you'll be able to see the finished product 
 MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) is an indispensable resource for understanding the semantics of WebGL's API calls. Don't be intimidated by the number of functions listed - simply search for the name of a WebGL function you want to learn about (e.g. `texImage2D`) and follow the link to its reference, where you'll see a list of accepted arguments accompanied by detailed explanations and example code. The code for this workshop is loosely based on [MDN's WebGL tutorial](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial), so if a traditional online tutorial is more convenient for you than the workshop format, you should definitely check out that link.
 
 ## Directory Layout
+### Stages
 * `0-base` - The directory with which you'll (probably) start the workshop; a minimal template to handle HTML and user interaction so you can focus on learning WebGL
 * `1-color` - A cube shaded entirely the same color
 * `2-texture` - A textured cube
 * `3-lighting` - A lit textured cube
+
+### Inside each stage
+#### More Important
+* `main.js` - Example-specific code
+* `utils.js` - Common utilities for working with shaders and textures
+* `assets.js` - Contains shader and model data for the cube
+
+#### Less Important
+* `input.js` - Connects DOM events to matrix transforms
+* `gl-matrix-min.js` - External library (glMatrix) used for matrix and vector functions
+* `index.html` - HTML page instructing the browser to load and run our scripts
 
 ## Cloning via Git
 There are two options for downloading this repository to your device:
