@@ -1,6 +1,15 @@
 # WebGL Workshop
 *Part of ACM Hacktoberfest 2020*
 
+## A Good Idea
+It might be a good idea to clone this repo and test everything to make sure it works, and perhaps skim the code/comments so you already have an idea of what we're doing before the workshop (not a requirement though; we'll go through almost all of it again during the workshop). If you run into any issues, [hit us up on Discord](https://www.acmutd.co/discord)!
+
+## Cloning via Git
+There are two options for downloading this repository to your device (you only need to do one of these):
+
+1. Open your terminal and run `git clone https://github.com/acmutd/htf-community.git`
+2. [Download the ZIP file](https://github.com/acmutd/htf-community/archive/main.zip)
+
 ## Overview
 [ACM Hacktoberfest](https://hacktoberfest.acmutd.co) is a one-day event celebrating open source with workshops
 and speakers about modern software practices.
@@ -38,12 +47,6 @@ MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web
 * `gl-matrix-min.js` - External library (glMatrix) used for matrix and vector functions
 * `index.html` - HTML page instructing the browser to load and run our scripts
 
-## Cloning via Git
-There are two options for downloading this repository to your device (you only need to do one of these):
-
-1. Open your terminal and run `git clone https://github.com/acmutd/htf-community.git`
-2. [Download the ZIP file](https://github.com/acmutd/htf-community/archive/main.zip)
-
 ## HTTP Server for Examples
 In these examples, we demonstrate the use of textures to apply an image onto a 3D surface. This functionality is only available if you use a local HTTP server to run the examples, rather than double-clicking the HTML files.
 
@@ -54,6 +57,3 @@ If you don't want to use Live Server, follow [these instructions](https://develo
 Additional notes for MDN instructions:
 * Step 1: we'd recommend getting the *x86-64* version of Python (rather than the *x86* one mentioned in that tutorial), unless you already have a different version of Python installed.
 * Step 3: `cd` into the root of this repository (e.g. the `htf-community` folder on your drive).
-
-## A Good Idea
-It might be a good idea to clone this repo and test everything to make sure it works, and perhaps skim the code/comments so you already have an idea of what we're doing before the workshop (not a requirement though; we'll go through almost all of it again during the workshop). If you run into any issues, [hit us up on Discord](https://www.acmutd.co/discord)!
