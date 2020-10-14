@@ -39,7 +39,7 @@ MDN's [WebGL API Reference](https://developer.mozilla.org/en-US/docs/Web/API/Web
 * `index.html` - HTML page instructing the browser to load and run our scripts
 
 ## Cloning via Git
-There are two options for downloading this repository to your device:
+There are two options for downloading this repository to your device (you only need to do one of these):
 
 1. Open your terminal and run `git clone https://github.com/acmutd/htf-community.git`
 2. [Download the ZIP file](https://github.com/acmutd/htf-community/archive/main.zip)
