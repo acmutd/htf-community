@@ -89,8 +89,9 @@ gl.enable(gl.DEPTH_TEST)
 
 function animateModel () {
   // Animate the model by rotating its corresponding matrix
-  glMatrix.mat4.rotateX(modelMat, modelMat, Math.sin(Date.now() / 1000.0) * 0.05)
-  glMatrix.mat4.rotateY(modelMat, modelMat, Math.cos(Date.now() / 1000.0) * 0.025)
+  glMatrix.mat4.identity(modelMat)
+  glMatrix.mat4.rotateX(modelMat, modelMat, Math.sin(Date.now() / 750.0) * 2)
+  glMatrix.mat4.rotateY(modelMat, modelMat, Math.cos(Date.now() / 750.0) * 2)
 }
 
 function drawScene () {

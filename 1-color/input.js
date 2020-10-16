@@ -4,29 +4,36 @@ let downPressed = false
 let leftPressed = false
 let rightPressed = false
 
+let lastTime = Date.now()
+
 function viewMatApplyInput (viewMat) {
+  const curTime = Date.now()
+  const dt = (curTime - lastTime) / 1000
+
   // Create a vector (an array in which indices 0/1/2 correspond to values X/Y/Z)
   const dir = [0.0, 0.0, 0.0]
 
   // If viewer is moving forwards, move scene backwards (positive Z)
   if (upPressed) {
-    dir[2] += 0.125
+    dir[2] += dt * 15
   }
   // If viewer is moving backwards, move scene forwards (negative Z)
   if (downPressed) {
-    dir[2] -= 0.125
+    dir[2] -= dt * 15
   }
   // If viewer is moving left, move scene to the right (positive X)
   if (leftPressed) {
-    dir[0] += 0.125
+    dir[0] += dt * 15
   }
   // If viewer is moving right, move scene to the left (positive X)
   if (rightPressed) {
-    dir[0] -= 0.125
+    dir[0] -= dt * 15
   }
 
   // Translate the view matrix by our chosen direction
   glMatrix.mat4.translate(viewMat, viewMat, dir)
+
+  lastTime = curTime
 }
 
 function handleResize (canvas, gl, projMat) {
