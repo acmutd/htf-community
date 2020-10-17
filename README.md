@@ -1,3 +1,5 @@
+*This readme is outdated! We'll let you know about the changes during the workshop, and we'll update this shortly afterwards for archival purposes.*
+
 # WebGL Workshop
 *Part of ACM Hacktoberfest 2020*
 
