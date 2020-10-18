@@ -1,11 +1,11 @@
 {
-  "name": "@iffyloop/acm-computer-graphics-workshop-part-2",
-  "main": "d8adf5ff8519ff22@760.js",
-  "version": "760.0.0",
-  "homepage": "https://observablehq.com/@iffyloop/acm-computer-graphics-workshop-part-2",
+  "name": "2793d140bace75e9",
+  "main": "2793d140bace75e9@868.js",
+  "version": "868.0.0",
+  "homepage": "https://observablehq.com/d/2793d140bace75e9",
   "author": {
-    "name": "iffyloop",
-    "url": "https://observablehq.com/@iffyloop"
+    "name": "Nirranjan Akilan",
+    "url": "https://observablehq.com/@anirranjan"
   },
   "type": "module",
   "peerDependencies": {

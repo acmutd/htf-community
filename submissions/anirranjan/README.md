@@ -1,6 +1,6 @@
-# ACM Computer Graphics Workshop - Part 2 (Texture)
+# ACM Computer Graphics Workshop - Part 3 (Lighting)
 
-https://observablehq.com/@iffyloop/acm-computer-graphics-workshop-part-2@760
+https://observablehq.com/d/2793d140bace75e9@868
 
 View this notebook in your browser by running a web server in this folder. For
 example:
@@ -14,14 +14,14 @@ import this module directly into your application. To npm install:
 
 ~~~sh
 npm install @observablehq/runtime@4
-npm install https://api.observablehq.com/@iffyloop/acm-computer-graphics-workshop-part-2.tgz?v=3
+npm install https://api.observablehq.com/d/2793d140bace75e9.tgz?v=3
 ~~~
 
 Then, import your notebook and the runtime as:
 
 ~~~js
 import {Runtime, Inspector} from "@observablehq/runtime";
-import define from "@iffyloop/acm-computer-graphics-workshop-part-2";
+import define from "2793d140bace75e9";
 ~~~
 
 To log the value of the cell named “foo”:
