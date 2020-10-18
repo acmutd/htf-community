@@ -1,13 +1,12 @@
-// https://observablehq.com/@iffyloop/acm-computer-graphics-workshop-part-2@760
 export default function define(runtime, observer) {
   const main = runtime.module();
-  const fileAttachments = new Map([["texture.png",new URL("./files/44ad041ebc9022a51052202ac0644a06a6810e21db13b9ee147d5ab927c6bd9fc62133286ab29384eb6ea27abef057576b4102e85fb780541b99e321a410b25c",import.meta.url)]]);
+  const fileAttachments = new Map([["fallguy.png",new URL("./files/693aa50bea868225dffdcf34b76009003a7792a2e0f0dde25750b6609c51ba98afbf87584379d60a278ad809a93010bcebfdb794ffcbc9f580942960504f143e",import.meta.url)]]);
   main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
   main.variable(observer()).define(["md"], function(md){return(
 md`
-# ACM Computer Graphics Workshop - Part 2 (Texture)
+# ACM Computer Graphics Workshop - Part 3 (Lighting)
 
-*If you came here from Part 1, scroll down to the section titled "Adding a Texture."*
+*If you came here from Part 2, scroll down to the section titled "Lighting the Cube."*
 `
 )});
   main.variable(observer("canvas")).define("canvas", function(){return(
@@ -540,6 +539,11 @@ Congratulations, you've been very patient! Your hard work has finally paid off, 
 )});
   main.variable(observer()).define(["md"], function(md){return(
 md`
+*We relocated the demo to the bottom of this tutorial.*
+`
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
 This would also be a *fantastic* time to ask any questions, if you're confused about *anything at all* we've discussed so far.
 `
 )});
@@ -621,7 +625,7 @@ Now let's call the function and make sure it works:
 `
 )});
   main.variable(observer("cubeTexture")).define("cubeTexture", ["loadTexture","gl","FileAttachment"], async function(loadTexture,gl,FileAttachment){return(
-loadTexture(gl, await FileAttachment('texture.png').image())
+loadTexture(gl, await FileAttachment('fallguy.png').image())
 )});
   main.variable(observer()).define(["md"], function(md){return(
 md`
@@ -773,7 +777,7 @@ md`
 Let's update our drawScene function to make use of our new texture and other related resources.
 `
 )});
-  main.variable(observer("drawScene2")).define("drawScene2", ["animateModelMatrix","glMatrix","modelViewMat","viewMat","modelMat","gl","shaderProgram2","shaderProgramInfo2","projMat","cubeTexture","vtxPosBuf","vtxTexCoordBuf","indexBuf","cubeIndexArray"], function(animateModelMatrix,glMatrix,modelViewMat,viewMat,modelMat,gl,shaderProgram2,shaderProgramInfo2,projMat,cubeTexture,vtxPosBuf,vtxTexCoordBuf,indexBuf,cubeIndexArray){return(
+  main.variable(observer("drawScene2")).define("drawScene2", ["animateModelMatrix","glMatrix","modelViewMat","viewMat","modelMat","gl","shaderProgram2","shaderProgramInfo2","projMat","cubeTexture","vtxPosBuf","shaderProgramInfo","vtxTexCoordBuf","indexBuf","cubeIndexArray"], function(animateModelMatrix,glMatrix,modelViewMat,viewMat,modelMat,gl,shaderProgram2,shaderProgramInfo2,projMat,cubeTexture,vtxPosBuf,shaderProgramInfo,vtxTexCoordBuf,indexBuf,cubeIndexArray){return(
 function drawScene2 () {
   // It's considered best practice to schedule another animation frame
   // immediately when the current frame begins
@@ -820,10 +824,10 @@ function drawScene2 () {
   // 0 sets stride = number of components per attribute * component data type size
   // Offset = "offset in bytes of the first component in the vertex attribute array"
   // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer
-  gl.vertexAttribPointer(shaderProgramInfo2.attribs.position, 3, gl.FLOAT, false, 0, 0)
+  gl.vertexAttribPointer(shaderProgramInfo.attribs.position, 3, gl.FLOAT, false, 0, 0)
   // Enable our attribute location (basically: we bound useful data to it and
   // the shader is going to access it)
-  gl.enableVertexAttribArray(shaderProgramInfo2.attribs.position)
+  gl.enableVertexAttribArray(shaderProgramInfo.attribs.position)
   
   //
   // NEW in Part 2!
@@ -857,16 +861,297 @@ The most important new concept is the use of \`gl.activeTexture\` to pick a text
 We also copied the code to bind \`vtxPosBuf\` to the \`position\` attribute of our shader, adjusting it to bind \`vtxTexCoordBuf\` to the \`texCoord\` attribute and interpret that buffer as an array of 2D (not 3D) vectors.
 `
 )});
-  main.variable(observer()).define(["drawScene2"], function(drawScene2){return(
-window.requestAnimationFrame(drawScene2)
-)});
   main.variable(observer()).define(["md"], function(md){return(
 md`
 ## You Did It Again!
 
-Congratulations! Take a moment to gaze upon your new furry friend (at the top of the workshop), and think about the many interesting things you could try doing with textures! If you click the "..." icon at the top of this document, you'll see a menu item called "File attachments." Click on that and upload a new file, then replace the \`'texture.png'\` filename with the name of your new upload in the section titled "Adding a Texture - Loading the Image."
+Congratulations! Take a moment to gaze upon your new furry friend, and think about the many interesting things you could try doing with textures! If you click the "..." icon at the top of this document, you'll see a menu item called "File attachments." Click on that and upload a new file, then replace the \`'texture.png'\` filename with the name of your new upload in the section titled "Adding a Texture - Loading the Image."
 
 Once again, this would be a *great* time to ask questions about *anything*!
+`
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+## Lighting the Cube - Shaders
+
+You thought things couldn't get any better, but they did. In the final stage of our workshop, we're going to learn how to apply a directional lighting effect to the cube! We won't go into detail about setting up the buffers and shaders since hopefully you're sufficiently familiar with those functions to understand what we're doing from the commented code. We'll still talk about concepts specific to lighting, such as what we're adding to the fragment shader and what vertex normals and normal matrices are.
+`
+)});
+  main.variable(observer("cubeVtxShaderSource3")).define("cubeVtxShaderSource3", function(){return(
+`
+// Use high-precision floating-point values
+precision highp float;
+
+// Attributes are unique to each vertex
+attribute vec3 position; // (X, Y, Z) coordinates in 3D space
+attribute vec2 texCoord; // (U, V) [aka (S, T)] coordinates indicating which
+                         // pixel of the texture is "glued" onto this vertex of
+                         // the 3D surface
+attribute vec3 normal; // (X, Y, Z) normals indicating the direction
+                       // perpendicular to the 3D surface
+
+// Uniforms can be updated once before the shader is invoked
+// (i.e. before a draw call is issued, with drawArrays/drawElements/etc)
+uniform mat4 projMat; // Projects from 3D (perspective) into 2D
+uniform mat4 modelViewMat; // Applies camera and model transformations
+uniform mat4 normalMat; // Inverted + transposed modelViewMat, adjusts normals
+                        // so lighting stays correct independently of camera/model
+                        // transforms
+
+// Varyings are passed from the vertex shader to the fragment shader
+// They must be declared in both shaders
+varying vec2 vTexCoord;
+varying vec4 vNormal;
+
+void main(void) {
+  // Set varyings which will be used by fragment shader
+  // The GPU automatically interpolates these values between fragments
+  vTexCoord = texCoord;
+  vNormal = normalMat * vec4(normal, 1.0);
+
+  // Multiply the input vertex position by matrices, to project it into 2D screen space
+  // Write our vertex position to the built-in output variable gl_Position
+  gl_Position = projMat * modelViewMat * vec4(position, 1.0);
+}
+`
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+Our new vertex shader accepts a new attribute and a new uniform. The \`normal\` attribute is a 3D vector storing the direction perpendicular to the surface at the current vertex. This helps us calculate the angle of incidence between the light source and the surface we're shading, which we'll do in a new fragment shader.
+
+We also have a normal matrix, which adjusts vertex normals in accordance with any transformation applied to the model-view matrix. Our normal matrix is derived by inverting and transposing our model-view matrix. We multiply the normal matrix and the vertex normal to calculate a final normal, which we assign to \`vNormal\`.
+`
+)});
+  main.variable(observer("cubeFragShaderSource3")).define("cubeFragShaderSource3", function(){return(
+`
+// Use high-precision floating-point values
+precision highp float;
+
+// ID of texture unit storing the texture we want to draw on this object
+uniform sampler2D textureImg;
+
+// Varyings are passed from the vertex shader to the fragment shader
+// They must be declared in both shaders
+varying vec2 vTexCoord;
+varying vec4 vNormal;
+
+void main(void) {
+  const vec3 lightDir = normalize(vec3(0.0, 0.0, 1.0));
+
+  // Sample our texture at the coordinate defined by vTexCoord
+  vec3 col = texture2D(textureImg, vTexCoord).xyz;
+
+  // Multiply color by light intensity to apply lighting
+  // Dot product of normal and light direction yields light intensity in our
+  // basic directional lighting model
+  col *= dot(vNormal.xyz, lightDir);
+
+  // Assign that color as our output value via the built-in gl_FragColor variable
+  gl_FragColor = vec4(col, 1.0);
+}
+`
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+The \`lightDir\` variable in our fragment shader stores the direction of our light source. We're using a simple, infinitely far away, directional light, since other light sources get complicated very quickly.
+
+You can see that we're storing only the RGB components of the texture color into a 3D vector called \`col\`. We then attenuate \`col\` by the dot product of the surface normal and the lighting direction. That dot product determines the intensity of the light at the given pixel.
+
+\`col\` is put in a 4D vector with an alpha component of \`1.0\` (fully opaque), and that 4D vector is written to \`gl_FragColor\`.
+`
+)});
+  main.variable(observer("shaderProgram3")).define("shaderProgram3", ["initShaderProgram","gl","cubeVtxShaderSource3","cubeFragShaderSource3"], function(initShaderProgram,gl,cubeVtxShaderSource3,cubeFragShaderSource3){return(
+initShaderProgram(gl, cubeVtxShaderSource3, cubeFragShaderSource3)
+)});
+  main.variable(observer("shaderProgramInfo3")).define("shaderProgramInfo3", ["gl","shaderProgram3"], function(gl,shaderProgram3){return(
+{
+  attribs: {
+    position: gl.getAttribLocation(shaderProgram3, 'position'),
+    texCoord: gl.getAttribLocation(shaderProgram3, 'texCoord'),
+    normal: gl.getAttribLocation(shaderProgram3, 'normal'),
+  },
+  uniforms: {
+    projMat: gl.getUniformLocation(shaderProgram3, 'projMat'),
+    modelViewMat: gl.getUniformLocation(shaderProgram3, 'modelViewMat'),
+    normalMat: gl.getUniformLocation(shaderProgram3, 'normalMat'),
+    textureImg: gl.getUniformLocation(shaderProgram3, 'textureImg'),
+  },
+}
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+## Lighting the Cube - Geometry Buffers
+`
+)});
+  main.variable(observer("cubeVtxNormalArray")).define("cubeVtxNormalArray", function(){return(
+[
+  // Front
+  0.0, 0.0, 1.0,
+  0.0, 0.0, 1.0,
+  0.0, 0.0, 1.0,
+  0.0, 0.0, 1.0,
+
+  // Back
+  0.0, 0.0, -1.0,
+  0.0, 0.0, -1.0,
+  0.0, 0.0, -1.0,
+  0.0, 0.0, -1.0,
+
+  // Top
+  0.0, 1.0, 0.0,
+  0.0, 1.0, 0.0,
+  0.0, 1.0, 0.0,
+  0.0, 1.0, 0.0,
+
+  // Bottom
+  0.0, -1.0, 0.0,
+  0.0, -1.0, 0.0,
+  0.0, -1.0, 0.0,
+  0.0, -1.0, 0.0,
+
+  // Right
+  1.0, 0.0, 0.0,
+  1.0, 0.0, 0.0,
+  1.0, 0.0, 0.0,
+  1.0, 0.0, 0.0,
+
+  // Left
+  -1.0, 0.0, 0.0,
+  -1.0, 0.0, 0.0,
+  -1.0, 0.0, 0.0,
+  -1.0, 0.0, 0.0,
+]
+)});
+  main.variable(observer("vtxNormalBuf")).define("vtxNormalBuf", ["createBuffer","gl","cubeVtxNormalArray"], function(createBuffer,gl,cubeVtxNormalArray){return(
+createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(cubeVtxNormalArray), gl.STATIC_DRAW)
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+## Lighting the Cube - Matrices
+
+We'll use this normal matrix in the \`drawScene3\` function.
+`
+)});
+  main.variable(observer("normalMat")).define("normalMat", ["glMatrix"], function(glMatrix){return(
+glMatrix.mat4.create()
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+## Lighting the Cube - Drawing a Scene
+`
+)});
+  main.variable(observer("drawScene3")).define("drawScene3", ["animateModelMatrix","glMatrix","modelViewMat","viewMat","modelMat","gl","shaderProgram3","normalMat","shaderProgramInfo3","projMat","cubeTexture","vtxPosBuf","vtxTexCoordBuf","vtxNormalBuf","indexBuf","cubeIndexArray"], function(animateModelMatrix,glMatrix,modelViewMat,viewMat,modelMat,gl,shaderProgram3,normalMat,shaderProgramInfo3,projMat,cubeTexture,vtxPosBuf,vtxTexCoordBuf,vtxNormalBuf,indexBuf,cubeIndexArray){return(
+function drawScene3 () {
+  // It's considered best practice to schedule another animation frame
+  // immediately when the current frame begins
+  window.requestAnimationFrame(drawScene3)
+
+  // Call the function we declared earlier to animate the model matrix
+  animateModelMatrix()
+  // Multiply view matrix * model matrix and write result to modelViewMatrix
+  glMatrix.mat4.multiply(modelViewMat, viewMat, modelMat)
+
+  // Clear the screen to empty
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+  // Use our shader program to draw this model
+  gl.useProgram(shaderProgram3)
+  
+  //
+  // NEW in Part 3
+  //
+  // Multiply view matrix * model matrix and write result to modelViewMatrix
+  glMatrix.mat4.multiply(modelViewMat, viewMat, modelMat)
+  // Create a normal matrix correspondent to modelViewMatrix
+  glMatrix.mat4.invert(normalMat, modelViewMat)
+  glMatrix.mat4.transpose(normalMat, normalMat)
+
+  // Pass our matrix data to the shader program
+  // 4fv = 4D array of 4D floating-point vectors
+  gl.uniformMatrix4fv(shaderProgramInfo3.uniforms.projMat, false, projMat)
+  gl.uniformMatrix4fv(shaderProgramInfo3.uniforms.modelViewMat, false, modelViewMat)
+  gl.uniformMatrix4fv(shaderProgramInfo3.uniforms.normalMat, false, normalMat)
+  
+  // WebGL limits how many textures are available to a given draw call, usually
+  // around 16 on modern hardware. Available textures "slots" gl.TEXTURE0 - gl.TEXTURE[N]
+  // Let's use the first texture slot for our example here
+  gl.activeTexture(gl.TEXTURE0)
+  // Now that we've picked the appropriate texture slot, bind our texture to the
+  // 2D target of this texture slot
+  gl.bindTexture(gl.TEXTURE_2D, cubeTexture)
+  // Pass the texture slot ID (0) to the shader, so it knows from which texture to read
+  // 1i = one integer
+  gl.uniform1i(shaderProgramInfo3.uniforms.textureImg, 0)
+
+  // Bind our vertex position buffer
+  gl.bindBuffer(gl.ARRAY_BUFFER, vtxPosBuf)
+  // Specify layout of our vertex buffer.
+  // This flexibility offered by this function is most useful if you're using
+  // interleaved buffers, which we aren't.
+  //
+  // Arguments: attribute location, number of components per attribute, data type, normalized, stride
+  // Stride = "offset in bytes between the beginning of consecutive vertex attributes"
+  // 0 sets stride = number of components per attribute * component data type size
+  // Offset = "offset in bytes of the first component in the vertex attribute array"
+  // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer
+  gl.vertexAttribPointer(shaderProgramInfo3.attribs.position, 3, gl.FLOAT, false, 0, 0)
+  // Enable our attribute location (basically: we bound useful data to it and
+  // the shader is going to access it)
+  gl.enableVertexAttribArray(shaderProgramInfo3.attribs.position)
+  
+  gl.bindBuffer(gl.ARRAY_BUFFER, vtxTexCoordBuf)
+  // Second argument is 2 instead of 3 because texture coordinates are 2D vectors
+  gl.vertexAttribPointer(shaderProgramInfo3.attribs.texCoord, 2, gl.FLOAT, false, 0, 0)
+  gl.enableVertexAttribArray(shaderProgramInfo3.attribs.texCoord)
+  
+  //
+  // NEW in Part 3!
+  //
+  gl.bindBuffer(gl.ARRAY_BUFFER, vtxNormalBuf)
+  // Second argument is 2 instead of 3 because texture coordinates are 2D vectors
+  gl.vertexAttribPointer(shaderProgramInfo3.attribs.normal, 3, gl.FLOAT, false, 0, 0)
+  gl.enableVertexAttribArray(shaderProgramInfo3.attribs.normal)
+
+  // Bind our index buffer
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuf)
+  // Issue a draw call!
+  //
+  // A "draw call" is a special API call that actually draws content on the screen
+  // So far, we've spent hundreds of lines of code setting up the pipeline, but
+  // nothing has been rendered yet.
+  // This call tells WebGL that we're done configuring things and want to use the
+  // resources we've bound to produce some graphical output.
+  //
+  // Arguments: mode (primitive type), number of elements, element data type, offset
+  // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawElements
+  gl.drawElements(gl.TRIANGLES, cubeIndexArray.length, gl.UNSIGNED_SHORT, 0)
+}
+)});
+  main.variable(observer()).define(["drawScene3"], function(drawScene3){return(
+window.requestAnimationFrame(drawScene3)
+)});
+  main.variable(observer()).define(["md"], function(md){return(
+md`
+## You Did It - All of It!
+
+Great job; your cube is now lit! Scroll back up to the top of the workshop to see it.
+
+Friend, this has been a fun journey, but it's also been long. A sincere congratulations to you for having the patience to follow through all this material! May you be rewarded greatly.
+
+I'm assuming that, since you stuck with the entire tutorial series, you're probably at least somewhat interested in computer graphics already. If that is the case, you should start experimenting with rendering more models and using different features of the graphics pipeline, such as alpha blending and render-to-texture (a personal favorite of mine since it's the basis for many impressive effects).
+
+You might also enjoy reading about some advanced graphics programming techniques. Don't worry if you don't understand it all now - you'll get more comfortable with these concepts as you gain experience, and these can be a good source of problem-solving inspiration.
+
+* [GPU Gems 2 - Deferred Shading](https://developer.nvidia.com/gpugems/gpugems2/part-ii-shading-lighting-and-shadows/chapter-9-deferred-shading-stalker)
+* [GPU Gems 2 - Dynamic Ambient Occlusion and Global Illumination](https://developer.nvidia.com/gpugems/gpugems2/part-ii-shading-lighting-and-shadows/chapter-14-dynamic-ambient-occlusion-and)
+* [GPU Gems 3 - Real-Time Skin Rendering](https://developer.nvidia.com/gpugems/gpugems3/part-iii-rendering/chapter-14-advanced-techniques-realistic-real-time-skin)
+* [SIGGRAPH 2008 - Real-Time Hair Rendering](https://developer.download.nvidia.com/presentations/2008/SIGGRAPH/RealTimeHairRendering_SponsoredSession2.pdf)
+* [GDC 2011 - Fast, Cheap Subsurface Scattering](https://colinbarrebrisebois.com/2011/03/07/gdc-2011-approximating-translucency-for-a-fast-cheap-and-convincing-subsurface-scattering-look/) and [follow-up](https://colinbarrebrisebois.com/2011/04/04/approximating-translucency-part-ii-addendum-to-gdc-2011-talk-gpu-pro-2-article/) [articles](https://colinbarrebrisebois.com/2012/04/09/approximating-translucency-revisited-with-simplified-spherical-gaussian/)
+* [Self Shadow's SIGGRAPH 2013 Course Notes](https://blog.selfshadow.com/publications/s2013-shading-course/) - the [Pixar](https://blog.selfshadow.com/publications/s2013-shading-course/pixar/s2013_pbs_pixar_slides.pdf), [OSL](https://blog.selfshadow.com/publications/s2013-shading-course/martinez/s2013_pbs_osl_slides.pdf) and [UE4](https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_slides.pdf) presentations have the most impressive pictures, while [this presentation](https://blog.selfshadow.com/publications/s2013-shading-course/hoffman/s2013_pbs_physics_math_slides.pdf) is a good introduction to the revolutionary *microfacet* shading model that became very popular around 2013 and is still used in game engines today. He also has [links](https://blog.selfshadow.com/) to lots of other useful content.
+* [ATI Research - Toy Shop](http://developer.amd.com/wordpress/media/2012/10/ToyShop-Eurographics_AnimationFestival.pdf)
+* [GTC - NVIDIA VXGI (Voxel-based Global Illumination)](https://on-demand.gputechconf.com/gtc/2015/presentation/S5670-Alexey-Panteleev.pdf)
+* [Casual Effects - Screen-Space Ray Tracing](https://web.archive.org/web/20200511095631/https://casual-effects.blogspot.com/2014/08/screen-space-ray-tracing.html)
+* [Inigo Quilez's website](https://iquilezles.org) and what is perhaps his masterpiece: [Elevated](http://www.youtube.com/watch?v=_YWMGuh15nE&fmt=22). All of that video and audio is generated in real-time by a *4 **kilobyte*** executable.
 `
 )});
   return main;
