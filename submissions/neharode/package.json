@@ -1,0 +1,14 @@
+{
+  "name": "b87eef93f9b586f6",
+  "main": "b87eef93f9b586f6@768.js",
+  "version": "768.0.0",
+  "homepage": "https://observablehq.com/d/b87eef93f9b586f6",
+  "author": {
+    "name": "Neha Rode",
+    "url": "https://observablehq.com/@neha-rode"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}
