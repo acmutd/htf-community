@@ -1,0 +1,14 @@
+{
+  "name": "a8823857028558a5",
+  "main": "a8823857028558a5@765.js",
+  "version": "765.0.0",
+  "homepage": "https://observablehq.com/d/a8823857028558a5",
+  "author": {
+    "name": "Sidharth Khabiya",
+    "url": "https://observablehq.com/@sidkhabiya"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}
