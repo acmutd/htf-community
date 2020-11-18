@@ -1,0 +1,14 @@
+{
+  "name": "@iffyloop/acm-computer-graphics-workshop",
+  "main": "fd9bd9f55905d7d7@583.js",
+  "version": "583.0.0",
+  "homepage": "https://observablehq.com/@iffyloop/acm-computer-graphics-workshop",
+  "author": {
+    "name": "iffyloop",
+    "url": "https://observablehq.com/@iffyloop"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}
